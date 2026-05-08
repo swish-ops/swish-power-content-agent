@@ -7,6 +7,7 @@ import json
 import os
 import re
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Literal
 
 import streamlit as st
@@ -14,7 +15,15 @@ from agents import Agent, Runner, WebSearchTool
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
+
+def get_openai_api_key() -> str | None:
+    """Return the configured OpenAI API key without exposing it in the UI."""
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    return api_key.strip() if api_key and api_key.strip() else None
+
 
 DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
@@ -368,7 +377,9 @@ def main() -> None:
     with st.sidebar:
         st.header("Settings")
         model = st.text_input("OpenAI model", value=DEFAULT_MODEL)
-        st.info("Add your OPENAI_API_KEY to .env before generating content.")
+        api_key = get_openai_api_key()
+        if not api_key:
+            st.info("Add your OPENAI_API_KEY to .env before generating content.")
 
     mode = st.radio(
         "Input type",
@@ -386,6 +397,9 @@ def main() -> None:
     if st.button("Generate Content Pack", type="primary"):
         if not topic_input.strip():
             st.error("Please enter a topic or current-topic request.")
+            return
+        if not get_openai_api_key():
+            st.error("Add your OPENAI_API_KEY to .env before generating content.")
             return
 
         request = ContentRequest(topic_input=topic_input.strip(), mode=mode)
