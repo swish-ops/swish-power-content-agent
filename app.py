@@ -51,6 +51,15 @@ Create exactly 8 slides:
 8. CTA
 
 Each slide must include a headline, body copy, and visual direction.
+
+Slide 8 CTA guidance:
+- Prefer a soft CTA focused on saving, following, and value-first education.
+- Avoid overly salesy wording unless the post is specifically a product or offer post.
+- Preferred CTA examples: "Save this before your next trip", "Follow Swish Power Solutions for plain-English camping power guides", "Follow for more", and "Save this guide".
+- Preferred Slide 8 format:
+  Headline: Not sure what size you need?
+  Body: Save this before your next trip. Follow Swish Power Solutions for plain-English camping power guides.
+  CTA button: Follow for more
 """
 
 
